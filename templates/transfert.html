@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+
+<h3>🔄 Transfert entre comptes</h3>
+
+<form method="POST" class="card p-3">
+
+<select name="source" class="form-control mb-2">
+{% for c in comptes %}
+<option value="{{ c.id }}">{{ c.nom }} ({{ c.solde }} DZD)</option>
+{% endfor %}
+</select>
+
+<select name="dest" class="form-control mb-2">
+{% for c in comptes %}
+<option value="{{ c.id }}">{{ c.nom }}</option>
+{% endfor %}
+</select>
+
+<input name="montant" type="number" step="0.01" class="form-control mb-2" placeholder="Montant">
+
+<button class="btn btn-primary">Valider</button>
+
+</form>
+
+<a href="/" class="btn btn-secondary mt-3">Retour</a>
+
+</body>
+</html>

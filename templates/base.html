@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance Manager</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ================= THEME ================= */
+:root {
+    --bg: #f4f6f9;
+    --text: #111;
+    --card: #fff;
+    --sidebar: #ffffff;
+}
+
+body.dark {
+    --bg: #121212;
+    --text: #fff;
+    --card: #1e1e1e;
+    --sidebar: #1a1a1a;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--sidebar);
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    margin: 8px 0;
+    text-decoration: none;
+    border-radius: 10px;
+    color: inherit;
+}
+
+.sidebar a:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* ================= CONTENT ================= */
+.content {
+    margin-left: 260px;
+    padding: 20px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -260px;
+        position: fixed;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+}
+
+/* ================= BUTTONS ================= */
+.menu-btn {
+    display: none;
+    margin-bottom: 10px;
+}
+
+/* ================= TOGGLE ================= */
+.toggle {
+    position: absolute;
+    bottom: 20px;
+}
+/* ================= MOBILE APP BAR ================= */
+.mobile-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--sidebar);
+        border-top: 1px solid #ccc;
+        justify-content: space-around;
+        padding: 10px 0;
+        font-size: 22px;
+        z-index: 999;
+    }
+    .mobile-nav a {
+        text-decoration: none;
+        color: inherit;
+        text-align: center;
+        flex: 1;
+    }
+    .content {
+        padding-bottom: 70px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+</style>
+
+</head>
+
+<body class="{% if param.theme == 'sombre' %}dark{% endif %}">
+<!-- ================= SIDEBAR ================= -->
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar" id="sidebar">
+
+<h4>💰 Finance</h4>
+
+<a href="/">🏠 {{ t.comptes }}</a>
+<a href="/familles">🏷️ {{ t.familles }}</a>
+<a href="/dashboard">📊 {{ t.dashboard }}</a>
+<a href="/parametres">⚙️ {{ t.parametres }}</a>
+<a href="/carte">💳 Carte</a>
+<!-- THEME TOGGLE -->
+<div class="toggle mt-4">
+<button onclick="toggleTheme()" class="btn btn-sm btn-secondary w-100">
+🎨 Changer thème
+</button>
+</div>
+
+</div>
+
+<!-- ================= MOBILE BUTTON ================= -->
+<div class="content">
+
+<button class="btn btn-dark menu-btn mb-3" onclick="toggleSidebar()">
+☰ Menu
+</button>
+
+{% block content %}{% endblock %}
+
+</div>
+
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    // (optionnel) sauvegarde simple
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme","dark");
+    } else {
+        localStorage.setItem("theme","light");
+    }
+}
+
+// charger thème au reload
+window.onload = function(){
+    if(localStorage.getItem("theme") === "dark"){
+        document.body.classList.add("dark");
+    }
+}
+</script>
+<!-- ================= MOBILE NAV BAR ================= -->
+<div class="mobile-nav">
+    <a href="/">🏠</a>
+    <a href="/dashboard">📊</a>
+    <a href="/familles">📁</a>
+    <a href="/parametres">⚙️</a>
+    <a href="/carte">💳</a>
+</div>
+</body>
+</html>

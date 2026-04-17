@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Modifier Famille</h2>
+
+    <form method="POST">
+        <input type="text" name="nom" value="{{ famille.nom }}" class="form-control mb-2">
+        
+         <div class="mb-3">
+               <label>Changer l’icône</label>
+
+              <div class="d-flex flex-wrap gap-3">
+
+                  <input type="radio" name="icone" value="🍔" id="e1" hidden {% if famille.icone == "🍔" %}checked{% endif %}>
+                  <label for="e1" class="icon-btn">🍔</label>
+
+                  <input type="radio" name="icone" value="🚗" id="e2" hidden {% if famille.icone == "🚗" %}checked{% endif %}>
+                  <label for="e2" class="icon-btn">🚗</label>
+
+                 <input type="radio" name="icone" value="🏠" id="e3" hidden {% if famille.icone == "🏠" %}checked{% endif %}>
+                 <label for="e3" class="icon-btn">🏠</label>
+
+                  <input type="radio" name="icone" value="💊" id="e4" hidden {% if famille.icone == "💊" %}checked{% endif %}>
+                  <label for="e4" class="icon-btn">💊</label>
+
+                 <input type="radio" name="icone" value="🎮" id="e5" hidden {% if famille.icone == "🎮" %}checked{% endif %}>
+                 <label for="e5" class="icon-btn">🎮</label>
+ 
+                 <input type="radio" name="icone" value="✈️" id="e6" hidden {% if famille.icone == "✈️" %}checked{% endif %}>
+                 <label for="e6" class="icon-btn">✈️</label>
+
+            </div>
+</div>
+
+        <input type="number" step="0.01" name="budget" value="{{ famille.budget }}" class="form-control">
+        <button class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+
+{% endblock %}

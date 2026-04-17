@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Modifier transaction</h3>
+
+    <form method="POST"
+          action="/edit_transaction/{{ transaction.id }}/{{ compte_id }}"
+          class="card p-3">
+
+        <div class="mb-3">
+            <label>Description</label>
+            <input type="text" name="designation" class="form-control"
+                   value="{{ transaction.designation }}">
+        </div>
+
+        <div class="mb-3">
+            <label>Date</label>
+            <input type="date" name="date" class="form-control"
+                   value="{{ transaction.date[:10] if transaction.date else '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label>Montant</label>
+            <input type="number" step="0.01" name="montant" class="form-control"
+                   value="{{ transaction.montant }}">
+        </div>
+        <div class="mb-3">
+        <label>Catégorie</label>
+        <select name="categorie" class="form-control" required>
+            <option value="Revenu" {% if transaction.categorie == "Revenu" %}selected{% endif %}>Revenu</option>
+            <option value="Dépense fixe" {% if transaction.categorie == "Dépense fixe" %}selected{% endif %}>Dépense fixe</option>
+            <option value="Dépense variable" {% if transaction.categorie == "Dépense variable" %}selected{% endif %}>Dépense variable</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Famille</label>
+        <select name="famille_id" class="form-control" required>
+            {% for f in familles %}
+                <option value="{{ f.id }}"
+                    {% if transaction.famille_id == f.id %}selected{% endif %}>
+                    {{ f.nom }}
+                </option>
+            {% endfor %}
+        </select>
+</div>
+        <button type="submit" class="btn btn-primary">
+            Enregistrer
+        </button>
+
+    </form>
+
+    <a href="/transactions/{{ compte_id }}" class="btn btn-secondary mt-2">
+        Retour
+    </a>
+
+</div>
+
+{% endblock %}

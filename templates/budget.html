@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>💰 Budget par famille</h3>
+
+<div class="card p-3 mb-3">
+
+<form method="POST" action="/add_budget" class="row g-2">
+
+<div class="col">
+<select name="famille_id" class="form-control">
+{% for f in familles %}
+<option value="{{ f.id }}">{{ f.nom }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="col">
+<input type="number" step="0.01" name="montant" class="form-control" placeholder="Budget">
+</div>
+
+<div class="col">
+<button class="btn btn-success">Ajouter</button>
+</div>
+
+</form>
+
+</div>
+
+<table class="table table-striped">
+
+<tr class="table-dark">
+<th>Famille</th>
+<th>Budget</th>
+<th>Action</th>
+</tr>
+
+{% for b in budgets %}
+<tr>
+<td>{{ b.nom }}</td>
+<td>{{ b.montant }}</td>
+<td>
+<a href="/delete_budget/{{ b.id }}" class="btn btn-danger btn-sm">Supprimer</a>
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

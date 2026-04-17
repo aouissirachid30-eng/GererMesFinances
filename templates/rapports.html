@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapports - {{ compte.nom_compte }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Rapports et Statistiques</h1>
+            <p>{{ compte.nom_compte }}</p>
+        </header>
+
+        <nav>
+            <a href="/" class="nav-btn">🏠 Accueil</a>
+            <a href="/transactions/{{ compte.id_compte }}" class="nav-btn">📝 Transactions</a>
+        </nav>
+
+        <main>
+            <div class="stats-grid">
+                <div class="stat-card revenu">
+                    <h3>💰 Total Revenus</h3>
+                    <p class="stat-value">{{ "%.2f"|format(stats.total_revenus) }} {{ compte.monnaie.symbole }}</p>
+                </div>
+
+                <div class="stat-card depense-fixe">
+                    <h3>🏠 Dépenses Fixes</h3>
+                    <p class="stat-value">{{ "%.2f"|format(stats.total_depenses_fixes) }} {{ compte.monnaie.symbole }}</p>
+                </div>
+
+                <div class="stat-card depense-variable">
+                    <h3>🛒 Dépenses Variables</h3>
+                    <p class="stat-value">{{ "%.2f"|format(stats.total_depenses_variables) }} {{ compte.monnaie.symbole }}</p>
+                </div>
+            </div>
+
+            <div class="stats-moyens">
+                <h2>Par moyen de paiement</h2>
+                
+                <div class="moyen-group">
+                    <h3>🏦 Virement</h3>
+                    <div class="moyen-details">
+                        <span class="enc">Encaissement: {{ "%.2f"|format(stats.total_virement_enc) }} {{ compte.monnaie.symbole }}</span>
+                        <span class="dec">Décaissement: {{ "%.2f"|format(stats.total_virement_dec) }} {{ compte.monnaie.symbole }}</span>
+                    </div>
+                </div>
+
+                <div class="moyen-group">
+                    <h3>💵 Espèces</h3>
+                    <div class="moyen-details">
+                        <span class="enc">Encaissement: {{ "%.2f"|format(stats.total_especes_enc) }} {{ compte.monnaie.symbole }}</span>
+                        <span class="dec">Décaissement: {{ "%.2f"|format(stats.total_especes_dec) }} {{ compte.monnaie.symbole }}</span>
+                    </div>
+                </div>
+
+                <div class="moyen-group">
+                    <h3>💳 Carte Bancaire</h3>
+                    <div class="moyen-details">
+                        <span class="enc">Encaissement: {{ "%.2f"|format(stats.total_carte_enc) }} {{ compte.monnaie.symbole }}</span>
+                        <span class="dec">Décaissement: {{ "%.2f"|format(stats.total_carte_dec) }} {{ compte.monnaie.symbole }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solde-final-card">
+                <h2>Solde Final du Compte</h2>
+                <p class="solde-final {% if compte.solde_final >= 0 %}positive{% else %}negative{% endif %}">
+                    {{ "%.2f"|format(compte.solde_final) }} {{ compte.monnaie.symbole }}
+                </p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

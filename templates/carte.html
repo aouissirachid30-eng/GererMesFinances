@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="bank-card">
+
+    <h2>💳 Ma Carte</h2>
+
+    <div class="card-ui">
+        <p class="label">Solde disponible</p>
+        <h1 class="amount">{{ solde }} DZD</h1>
+
+        <div class="chip"></div>
+
+        <p class="footer">Finance Manager • Virtual Card</p>
+    </div>
+
+</div>
+
+<style>
+.bank-card {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.card-ui {
+    width: 320px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.amount {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.label {
+    opacity: 0.8;
+}
+
+.chip {
+    width: 50px;
+    height: 35px;
+    background: gold;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.footer {
+    font-size: 12px;
+    opacity: 0.7;
+}
+</style>
+
+{% endblock %}

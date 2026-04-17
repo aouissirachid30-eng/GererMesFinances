@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>📊 Dashboard</h3>
+
+<form action="/nouvelle_annee" method="POST"
+      onsubmit="return confirm('Confirmer ? Action irréversible !');">
+
+    <button class="btn btn-warning mb-3">
+        Passer à l'année suivante
+    </button>
+</form>
+
+<form method="GET" class="mb-3">
+    <input type="month" name="mois">
+    <button class="btn btn-primary">Filtrer</button>
+</form>
+
+<div class="card-balance">
+    <div class="card-content">
+        <div class="card-header">
+            <span>Solde total</span>
+            <span>??</span>
+        </div>
+
+        <div class="card-amount">
+            {{ "%.2f"|format(
+                data | sum(attribute='budget') - data | sum(attribute='depense')
+            ) }} {{ param.devise }}
+        </div>
+
+        <div class="card-footer">
+            <span>Application Finance</span>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3 mb-3">
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card bg-success text-white p-3">
+                <h5>Revenus</h5>
+                <h3>{{ total.revenus or 0 }}</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-danger text-white p-3">
+                <h5>Dépenses</h5>
+                <h3>{{ total.depenses or 0 }}</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-dark text-white p-3">
+                <h5>Solde</h5>
+                <h3>{{ (total.revenus or 0) - (total.depenses or 0) }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- IMPORTANT: hauteur fix -->
+    <div style="height:350px;">
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
+
+<table class="table text-center">
+
+<thead>
+<tr>
+    <th>Famille</th>
+    <th>Dépenses</th>
+    <th>Budget</th>
+    <th>État</th>
+</tr>
+</thead>
+
+<tbody>
+{% for item in data %}
+<div class="budget-card">
+
+    <div class="budget-header">
+        <span>{{ item.nom }}</span>
+        <span>
+            {{ "%.0f"|format(item.depense) }} / 
+            {{ "%.0f"|format(item.budget) }} {{ param.devise }}
+        </span>
+    </div>
+
+    {% set percent = (item.depense / item.budget * 100) if item.budget > 0 else 0 %}
+
+    <div class="progress">
+        <div class="progress-bar 
+            {% if percent > 90 %}bg-danger
+            {% elif percent > 70 %}bg-warning
+            {% else %}bg-success
+            {% endif %}"
+            style="width: {{ percent }}%;">
+        </div>
+    </div>
+
+</div>
+{% endfor %}
+</tbody>
+
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const labels = {{ data | map(attribute='nom') | list | tojson }};
+const depenses = {{ data | map(attribute='depense') | list | tojson }};
+const budgets = {{ data | map(attribute='budget') | list | tojson }};
+
+const ctx = document.getElementById("chart");
+
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: "Dépenses",
+                data: depenses,
+                backgroundColor: "red"
+            },
+            {
+                label: "Budget",
+                data: budgets,
+                backgroundColor: "green"
+            }
+        ]
+    }
+});
+</script>
+
+{% endblock %}

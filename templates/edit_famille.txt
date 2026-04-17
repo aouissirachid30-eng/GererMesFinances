@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Modifier Famille</h2>
+
+    <form method="POST">
+        <input type="text" name="nom" value="{{ famille.nom }}" class="form-control mb-2">
+        <button class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+
+{% endblock %}

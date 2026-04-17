@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<a href="/dashboard" class="btn btn-dark mb-3">📊 Dashboard</a>
+<a href="/transfert" class="btn btn-warning">🔄 Transfert</a>
+<a href="/familles" class="btn btn-info">📂 Familles</a>
+
+<body class="container mt-4">
+
+<h3>🏦 Comptes</h3>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger">{{ messages[0] }}</div>
+{% endif %}
+{% endwith %}
+
+<form method="POST" action="/add_compte" class="row g-2 mb-3">
+<input name="nom" class="form-control col" placeholder="Nom compte">
+<input name="solde" type="number" step="0.01" class="form-control col" placeholder="Solde initial">
+<button class="btn btn-primary col">Ajouter</button>
+</form>
+
+<table class="table table-bordered">
+<tr><th>Nom</th><th>Solde</th><th>Action</th></tr>
+
+{% for c in comptes %}
+<tr>
+<td>{{ c.nom }}</td>
+<td>{{ "%.2f"|format(c.solde_initial) }} DZD</td>
+<td><a href="/transactions/{{ c.id }}" class="btn btn-success">Voir</a></td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

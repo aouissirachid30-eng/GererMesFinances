@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Modifier Transaction</h3>
+
+<form method="POST" class="card p-3">
+
+<input type="date" name="date" value="{{ t.date }}" class="form-control mb-2">
+
+<select name="categorie" class="form-control mb-2">
+<option {% if t.categorie=='Revenu' %}selected{% endif %}>Revenu</option>
+<option {% if t.categorie=='Dépense fixe' %}selected{% endif %}>Dépense fixe</option>
+<option {% if t.categorie=='Dépense variable' %}selected{% endif %}>Dépense variable</option>
+</select>
+
+<select name="famille_id" class="form-control mb-2">
+{% for f in familles %}
+<option value="{{ f.id }}" {% if f.id == t.famille_id %}selected{% endif %}>
+{{ f.nom }}
+</option>
+{% endfor %}
+</select>
+
+<input name="designation" value="{{ t.designation }}" class="form-control mb-2">
+<input type="number" step="0.01" name="montant" value="{{ t.montant }}" class="form-control mb-2">
+
+<button class="btn btn-success">Valider</button>
+
+</form>
+
+{% endblock %}

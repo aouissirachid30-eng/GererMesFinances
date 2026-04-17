@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Paramétrage</h2>
+<h3>Restaurer une sauvegarde</h3>
+
+<p>
+    ⚠️ Choisis un fichier de sauvegarde (.db).<br>
+    Le fichier remplacera la base actuelle.
+</p>
+
+<form method="POST" action="/restore" enctype="multipart/form-data">
+    <input type="file" name="file" class="form-control mb-2" accept=".db" required>
+    <button type="submit" class="btn btn-danger">
+        Restaurer
+    </button>
+</form>
+
+<form method="POST">
+
+    <!-- DEVise -->
+    <div class="mb-3">
+        <label>Devise</label>
+        <select name="devise" class="form-control mb-3">
+
+            <option value="DZD" {% if param.devise == 'DZD' %}selected{% endif %}>DZD</option>
+            <option value="EUR" {% if param.devise == 'EUR' %}selected{% endif %}>Euro</option>
+            <option value="USD" {% if param.devise == 'USD' %}selected{% endif %}>Dollar</option>
+            <option value="GBP" {% if param.devise == 'GBP' %}selected{% endif %}>Livre Sterling (£)</option>
+            <option value="CHF" {% if param.devise == 'CHF' %}selected{% endif %}>Franc Suisse (CHF)</option>
+            <option value="CAD" {% if param.devise == 'CAD' %}selected{% endif %}>Dollar Canadien (CAD)</option>
+            <option value="AUD" {% if param.devise == 'AUD' %}selected{% endif %}>Dollar Australien (AUD)</option>
+            <option value="JPY" {% if param.devise == 'JPY' %}selected{% endif %}>Yen Japonais (JPY)</option>
+            <option value="CNY" {% if param.devise == 'CNY' %}selected{% endif %}>Yuan Chinois (CNY)</option>
+
+        </select>
+    </div>
+
+    <!-- THEME -->
+    <div class="mb-3">
+        <label>Thème</label>
+        <select name="theme" class="form-control mb-3">
+
+            <option value="clair" {% if param.theme == 'clair' %}selected{% endif %}>
+                ☀️ Clair
+            </option>
+
+            <option value="sombre" {% if param.theme == 'sombre' %}selected{% endif %}>
+                🌙 Sombre
+            </option>
+
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Date début</label>
+        <input type="date" name="date_debut" class="form-control"
+               value="{{ param.date_debut }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Date fin</label>
+        <input type="date" name="date_fin" class="form-control"
+               value="{{ param.date_fin }}">
+    </div>
+    <!-- LANGUE -->
+    <div class="mb-3">
+        <label>Langue</label>
+        <select name="langue" class="form-control mb-3">
+
+            <option value="fr" {% if param.langue == 'fr' %}selected{% endif %}>
+                🇫🇷 Français
+            </option>
+
+            <option value="en" {% if param.langue == 'en' %}selected{% endif %}>
+                🇬🇧 English
+            </option>
+
+            <option value="ar" {% if param.langue == 'ar' %}selected{% endif %}>
+                🇩🇿 العربية
+            </option>
+
+        </select>
+    </div>
+
+    <button class="btn btn-primary">Enregistrer</button>
+
+</form>
+
+{% endblock %}

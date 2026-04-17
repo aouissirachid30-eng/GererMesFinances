@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>📂 Familles</h3>
+
+<div class="card p-3 mb-3">
+    <form method="POST" action="/add_famille" class="row g-2">
+
+        <div class="col">
+            <input type="text" name="nom" placeholder="Nom de la famille" class="form-control mb-2">
+            <div class="mb-3">
+                   <label class="mb-2">Choisir une icône</label>
+
+                  <div class="d-flex flex-wrap gap-3">
+
+                 <input type="radio" name="icone" value="🍔" id="i1" hidden checked>
+                 <label for="i1" class="icon-btn">🍔</label>
+
+                <input type="radio" name="icone" value="🚗" id="i2" hidden>
+                <label for="i2" class="icon-btn">🚗</label>
+
+               <input type="radio" name="icone" value="🏠" id="i3" hidden>
+               <label for="i3" class="icon-btn">🏠</label>
+
+               <input type="radio" name="icone" value="💊" id="i4" hidden>
+               <label for="i4" class="icon-btn">💊</label>
+
+               <input type="radio" name="icone" value="🎮" id="i5" hidden>
+               <label for="i5" class="icon-btn">🎮</label>
+
+              <input type="radio" name="icone" value="✈️" id="i6" hidden>
+              <label for="i6" class="icon-btn">✈️</label>
+
+              <input type="radio" name="icone" value="📚" id="i7" hidden>
+              <label for="i7" class="icon-btn">📚</label>
+
+         </div>
+</div>
+</div>
+
+        </div>
+
+        <div class="col">
+            <input type="number" step="0.01" name="budget" class="form-control" placeholder="Budget">
+        </div>
+
+        <div class="col">
+            <button class="btn btn-success">Ajouter</button>
+        </div>
+
+    </form>
+</div>
+
+<table class="table table-striped text-center">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Nom</th>
+            <th>Budget</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for f in familles %}
+        <tr>
+            <td style="font-size:20px;">
+                  {{ f.icone }} {{ f.nom }}
+           </td>
+            <td>{{ f.budget }}</td>
+            <td>
+                <a href="/edit_famille/{{ f.id }}" class="btn btn-warning btn-sm">Modifier</a>
+
+                <a href="/delete_famille/{{ f.id }}" 
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Supprimer cette famille ?')">
+                   Supprimer
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+<style>
+.icon-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.15);
+    border-color: #0d6efd;
+}
+
+/* sélection */
+input[type="radio"]:checked + .icon-btn {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+/* dark mode */
+body.dark .icon-btn {
+    background: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark input[type="radio"]:checked + .icon-btn {
+    background: #4dabf7;
+}
+</style>
+{% endblock %}
